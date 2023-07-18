@@ -21,7 +21,12 @@ async function connectQueue() {
 }
 connectQueue();
 
+async function sendOrder(order) {
+    await channel.sendToQueue("product_queue", Buffer.from(JSON.stringify(order)));
 
+    await channel.close();
+    await connection.close(); 
+}
 
 const app = express();
 
@@ -29,6 +34,20 @@ app.get("/", (req, res) => {
     res.send({message: "Hello from kmtravel backend!"});
 });
 
+app.post("/orders", (req, res) => {
 
+    console.log("order was received: " + req.body)
+
+    const order = {
+        name: "Bella Italia",
+        country: "Italy",
+        location: "lake garda",
+        accommodation_type: "mobilehomes",
+        accommodation_unit_size: 4,
+        accommodation_price: 6.499
+    }
+
+    sendOrder(order);
+})
 
 app.listen(8080, console.log("Server is running on port, ", 8080));
