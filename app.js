@@ -9,8 +9,8 @@ var amqp_url = process.env.AMQP_URL || 'amqp://localhost:5672';
 async function connectQueue() {
     try {
         console.log('Connecting to amqp: ' + amqp_url);
-        channel = await amqp.connect(amqp_url)
-        connection = await connection.createChannel();
+        connection = await amqp.connect(amqp_url)
+        channel = await connection.createChannel();
 
         console.log('Connection established');
 
@@ -19,6 +19,9 @@ async function connectQueue() {
         console.log(error)
     }
 }
+connectQueue();
+
+
 
 const app = express();
 
