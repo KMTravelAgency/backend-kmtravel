@@ -39,6 +39,7 @@ app.post("/orders", (req, res) => {
     console.log("order was received: " + req.body)
 
     const order = {
+        uuid: "96581174-7d68-4fc8-9cb0-d5a8b263ab77",
         name: "Bella Italia",
         country: "Italy",
         location: "lake garda",
