@@ -1,5 +1,7 @@
 const express = require('express');
 const amqp = require('amqplib');
+const swaggerUi = require('swagger-ui-express')
+const swaggerFile = require('./swagger_output.json')
 
 var channel;
 var connection;
@@ -30,9 +32,7 @@ async function sendOrder(order) {
 
 const app = express();
 
-app.get("/", (req, res) => {
-    res.send({message: "Hello from kmtravel backend!"});
-});
+app.use(express.json());
 
 app.post("/orders", (req, res) => {
 
@@ -50,5 +50,7 @@ app.post("/orders", (req, res) => {
 
     sendOrder(order);
 })
+
+app.use("/docs", swaggerUi.serve, swaggerUi.setup(swaggerFile));
 
 app.listen(8080, console.log("Server is running on port, ", 8080));
